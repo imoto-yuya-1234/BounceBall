@@ -15,13 +15,15 @@ import org.opencv.core.Mat;
  * Created by yuya on 2017/02/22.
  */
 
-public class RunCameraProcess implements CvCameraViewListener2 {
+public class OpenCvCamera implements CvCameraViewListener2 {
+
+    OpenCvPolygon polygon = new OpenCvPolygon();
 
     private static final String TAG = "OpenCV::Camera";
     private MainActivity main;
     private CameraBridgeViewBase mOpenCvCameraView;
 
-    public RunCameraProcess(MainActivity main) {
+    public OpenCvCamera(MainActivity main) {
         this.main = main;
         Log.i(TAG, "Instantiated new " + this.getClass());
     }
@@ -80,6 +82,9 @@ public class RunCameraProcess implements CvCameraViewListener2 {
 
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         Mat rgbaMat = inputFrame.rgba();
-        return rgbaMat;
+        Mat outMat = rgbaMat.submat(0, (int)rgbaMat.size().height, 0, (int)rgbaMat.size().width);
+        polygon.findPolygon(rgbaMat);
+        polygon.drawPolygon(outMat);
+        return outMat;
     }
 }

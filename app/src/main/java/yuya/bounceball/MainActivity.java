@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
-    RunCameraProcess Cam = new RunCameraProcess(this);
+    OpenCvCamera Cam = new OpenCvCamera(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

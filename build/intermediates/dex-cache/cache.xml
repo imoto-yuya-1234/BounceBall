@@ -43,7 +43,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="635eb990629c4e17795d44ce555b254efd7273cb">
+        sha1="24dd20e1bc901b10a9e61c17427d23eff312a247">
         <dex dex="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_21d71ce362d0b87e4203452d6a9a2a8b3f331262/classes.dex" />
     </item>
     <item
@@ -151,7 +151,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="db45219004b129568fb98e12f6976eca0cd6f75d">
+        sha1="85555e116d1e885255a135c0cdfc21109f126edd">
         <dex dex="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_35a9f458d9a7b14876ca78240ecde10459f0e6df/classes.dex" />
     </item>
 
