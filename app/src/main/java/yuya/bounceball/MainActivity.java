@@ -5,14 +5,13 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
-    OpenCvCamera Cam = new OpenCvCamera(this);
+    OpenCvCameraView Cam = new OpenCvCameraView(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.camera_view);
         // 画面にカメラ画像を描画
-        Cam.showCameraView(findViewById(R.id.camera_view));
+        Cam.showCameraView();
     }
 
     @Override
@@ -24,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        Cam.onResumeProcess();
+        Cam.loadOpenCvLibrary();
     }
 
     public void onDestroy() {

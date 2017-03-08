@@ -15,7 +15,7 @@ import org.opencv.core.Mat;
  * Created by yuya on 2017/02/22.
  */
 
-public class OpenCvCamera implements CvCameraViewListener2 {
+public class OpenCvCameraView implements CvCameraViewListener2 {
 
     OpenCvPolygon polygon = new OpenCvPolygon();
 
@@ -23,7 +23,7 @@ public class OpenCvCamera implements CvCameraViewListener2 {
     private MainActivity main;
     private CameraBridgeViewBase mOpenCvCameraView;
 
-    public OpenCvCamera(MainActivity main) {
+    public OpenCvCameraView(MainActivity main) {
         this.main = main;
         Log.i(TAG, "Instantiated new " + this.getClass());
     }
@@ -49,7 +49,7 @@ public class OpenCvCamera implements CvCameraViewListener2 {
             mOpenCvCameraView.disableView();
     }
 
-    public void onResumeProcess() {
+    public void loadOpenCvLibrary() {
         if (!OpenCVLoader.initDebug()) {
             Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
             OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, main, mLoaderCallback);
@@ -68,14 +68,15 @@ public class OpenCvCamera implements CvCameraViewListener2 {
     }
 
     // カメラ画像を描画
-    public void showCameraView(View ViewBase) {
+    public void showCameraView() {
+        main.setContentView(R.layout.camera_view);
         // 画面を横向きに固定
         main.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         // フルスクリーン設定
         main.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // タイトルバー非表示
         main.getSupportActionBar().hide();
-        mOpenCvCameraView = (CameraBridgeViewBase)ViewBase;
+        mOpenCvCameraView = (CameraBridgeViewBase)main.findViewById(R.id.camera_view);
         mOpenCvCameraView.setVisibility(CameraBridgeViewBase.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
     }
