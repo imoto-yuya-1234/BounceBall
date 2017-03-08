@@ -3,15 +3,6 @@
 
     <item
         is-multidex="true"
-        jar="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
-        <dex dex="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-24.2.1_c554cd2c7f71da7b10259039ef0e53411de72a42/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
         jumboMode="true"
         optimize="true"
@@ -21,12 +12,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.2.1/jars/classes.jar"
+        jar="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
-        <dex dex="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-24.2.1_5a604589ad77dd955ccf22de6f377dc58a0664f8/classes.dex" />
+        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
+        <dex dex="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-24.2.1_c554cd2c7f71da7b10259039ef0e53411de72a42/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -39,12 +30,30 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
+        <dex dex="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-24.2.1_5a604589ad77dd955ccf22de6f377dc58a0664f8/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="24dd20e1bc901b10a9e61c17427d23eff312a247">
+        sha1="8188a24aa55e70ae622204e6bd401bc164f8e9d4">
         <dex dex="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_21d71ce362d0b87e4203452d6a9a2a8b3f331262/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
+        <dex dex="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.2.1_42b06b2e31e095b7bbb6732c76dc6409b9d72042/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -63,15 +72,6 @@
         revision="25.0.2"
         sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
         <dex dex="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_e9ee7031ff73e61129339d9a0b797b7a14a47aef/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
-        <dex dex="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.2.1_42b06b2e31e095b7bbb6732c76dc6409b9d72042/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -151,7 +151,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="85555e116d1e885255a135c0cdfc21109f126edd">
+        sha1="006780ceaec7a1b8b0993112feb59a704cf9b474">
         <dex dex="/Users/yuya/work/AndroidStudioProjects/BounceBall/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_35a9f458d9a7b14876ca78240ecde10459f0e6df/classes.dex" />
     </item>
 

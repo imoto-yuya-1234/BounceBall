@@ -29,7 +29,9 @@ public class OpenCvPolygon {
         Imgproc.cvtColor(tempMat, tempMat, Imgproc.COLOR_RGBA2BGR);
         Imgproc.cvtColor(tempMat, tempMat, Imgproc.COLOR_BGR2HSV);
         Core.inRange(tempMat, new Scalar(90, 70, 70), new Scalar(110, 255, 255), tempMat);
-        //Imgproc.cvtColor(tempMat, tempMat, Imgproc.COLOR_GRAY2BGRA);
+
+        OpenCvCameraView.mat2 = tempMat.clone();
+        Imgproc.cvtColor(OpenCvCameraView.mat2, OpenCvCameraView.mat2, Imgproc.COLOR_GRAY2BGRA);
 
         /*
         // 入力画像をグレースケール変換

@@ -2,6 +2,7 @@ package yuya.bounceball;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,6 +13,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // 画面にカメラ画像を描画
         Cam.showCameraView();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Cam.saveBitmap();
+        return true;
     }
 
     @Override
