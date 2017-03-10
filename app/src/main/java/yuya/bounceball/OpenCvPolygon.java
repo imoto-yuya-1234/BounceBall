@@ -22,28 +22,22 @@ public class OpenCvPolygon {
     static public ArrayList<ArrayList<Integer>> cornerPoints = new ArrayList<ArrayList<Integer>>();
 
     // 図形を検出
-    public void findPolygon(Mat inMat) {
-        Mat tempMat = inMat.clone();
+    public void findPolygon(final Mat inMat) {
+        Mat tempMat = new Mat();
+        Mat save1Mat, save2Mat;
 
-        // 青色を抽出
-        Imgproc.cvtColor(tempMat, tempMat, Imgproc.COLOR_RGBA2BGR);
-        Imgproc.cvtColor(tempMat, tempMat, Imgproc.COLOR_BGR2HSV);
-        Core.inRange(tempMat, new Scalar(90, 70, 70), new Scalar(110, 255, 255), tempMat);
-
-        OpenCvCameraView.mat2 = tempMat.clone();
-        Imgproc.cvtColor(OpenCvCameraView.mat2, OpenCvCameraView.mat2, Imgproc.COLOR_GRAY2BGRA);
-
-        /*
         // 入力画像をグレースケール変換
-        Imgproc.cvtColor(tempMat, tempMat, Imgproc.COLOR_RGBA2GRAY);
+        Imgproc.cvtColor(inMat, tempMat, Imgproc.COLOR_RGBA2GRAY);
         // 輝度値の高い箇所を抽出
         Imgproc.threshold(tempMat, tempMat, 0, 255, Imgproc.THRESH_BINARY | Imgproc.THRESH_OTSU);
-        */
+        save1Mat = tempMat.clone();
 
         // 輪郭を抽出
         List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
         Mat hierarchy = new Mat();
         Imgproc.findContours(tempMat, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_TC89_L1);
+        save2Mat = inMat.clone();
+        Imgproc.drawContours(save2Mat, contours, -1, new Scalar(0, 255, 0), 1);
 
         tempMat.release();
 
@@ -78,6 +72,8 @@ public class OpenCvPolygon {
                 }
             }
         }
+        ImageManager.INSTANCE.setMat(save1Mat);
+        ImageManager.INSTANCE.setMat(save2Mat);
     }
 
     // 図形を描画
