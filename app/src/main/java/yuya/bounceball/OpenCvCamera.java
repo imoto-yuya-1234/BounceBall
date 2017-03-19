@@ -15,15 +15,16 @@ import org.opencv.core.Mat;
  * Created by yuya on 2017/02/22.
  */
 
-public class OpenCvCameraView implements CvCameraViewListener2 {
+public class OpenCvCamera implements CvCameraViewListener2 {
 
     OpenCvPolygon polygon = new OpenCvPolygon();
 
     private static final String TAG = "OpenCV::Camera";
     private MainActivity main;
     private CameraBridgeViewBase mOpenCvCameraView;
+    static public int width, height;
 
-    public OpenCvCameraView(MainActivity main) {
+    public OpenCvCamera(MainActivity main) {
         this.main = main;
         Log.i(TAG, "Instantiated new " + this.getClass());
     }
@@ -68,7 +69,7 @@ public class OpenCvCameraView implements CvCameraViewListener2 {
     }
 
     // カメラ画像を描画
-    public void showCameraView() {
+    public void showCameraView(MainActivity main) {
         main.setContentView(R.layout.camera_view);
         // 画面を横向きに固定
         main.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -85,6 +86,8 @@ public class OpenCvCameraView implements CvCameraViewListener2 {
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         Mat inMat = inputFrame.rgba();
         Mat rgbaMat = inMat.clone();
+        this.width = (int)inMat.size().width;
+        this.height = (int)inMat.size().height;
         ImageManager.INSTANCE.clearId();
 
         polygon.findPolygon(rgbaMat);

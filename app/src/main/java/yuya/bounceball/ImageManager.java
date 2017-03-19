@@ -18,6 +18,7 @@ import java.util.Date;
  */
 
 public enum ImageManager {
+
     INSTANCE;
     private ArrayList<Mat> mat = new ArrayList<Mat>();
     private int id;

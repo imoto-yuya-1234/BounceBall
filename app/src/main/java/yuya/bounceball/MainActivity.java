@@ -6,13 +6,19 @@ import android.view.MotionEvent;
 
 public class MainActivity extends AppCompatActivity {
 
-    OpenCvCameraView Cam = new OpenCvCameraView(this);
+    OpenCvCamera cam;
+    AnimationManager anime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
         // 画面にカメラ画像を描画
-        Cam.showCameraView();
+        cam = new OpenCvCamera(this);
+        cam.showCameraView(this);
+        anime = new AnimationManager(this);
+        anime.showAnimationView(this);
     }
 
     @Override
@@ -24,17 +30,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        Cam.deleteCameraBridgeViewBase();
+        cam.deleteCameraBridgeViewBase();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Cam.loadOpenCvLibrary();
+        cam.loadOpenCvLibrary();
     }
 
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        Cam.deleteCameraBridgeViewBase();
+        cam.deleteCameraBridgeViewBase();
+        anime.deleteHandler();
     }
 }
