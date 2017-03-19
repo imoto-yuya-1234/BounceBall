@@ -21,36 +21,34 @@ public class AnimationManager extends View implements Runnable {
 
     public AnimationManager(Context context) {
         super(context);
-        this.ball = new Ball(context);
-
+        // 画面サイズの取得
         WindowManager windowManager = (WindowManager) context.getSystemService(WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         android.graphics.Point point = new android.graphics.Point();
         display.getSize(point);
-        this.width = point.x; //画面の幅
-        this.height = point.y; //画面の高さ
+        width = point.x; //画面の幅
+        height = point.y; //画面の高さ
 
-        this.ball.x = this.width / 2;
-        this.ball.y = this.height / 2;
+        ball = new Ball(context);
     }
-
+    
     public void showAnimationView(MainActivity main) {
-        this.handler = new Handler();
-        this.handler.postDelayed(this, this.ball.time);
-        main.addContentView(this.ball, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        handler = new Handler();
+        handler.postDelayed(this, ball.time);
+        main.addContentView(ball, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
     }
 
     @Override
     public void run() {
-        int offsetX = (this.width - OpenCvCamera.width) / 2;
-        int offsetY = (this.height - OpenCvCamera.height) / 2;
+        int offsetX = (width - OpenCvCamera.width) / 2;
+        int offsetY = (height - OpenCvCamera.height) / 2;
         int endX = OpenCvCamera.width + offsetX;
         int endY = OpenCvCamera.height + offsetY;
-        ball.moveBall(offsetX, offsetY, endX, endY);
 
+        ball.moveBall(offsetX, offsetY, endX, endY);
         // ballの再描画
-        this.ball.invalidate();
-        handler.postDelayed(this, this.ball.time);
+        ball.invalidate();
+        handler.postDelayed(this, ball.time);
     }
 
     public void deleteHandler() {
