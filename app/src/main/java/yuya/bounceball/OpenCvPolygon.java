@@ -29,14 +29,17 @@ public class OpenCvPolygon {
         Imgproc.cvtColor(inMat, tempMat, Imgproc.COLOR_RGBA2GRAY);
         // 輝度値の高い箇所を抽出
         Imgproc.threshold(tempMat, tempMat, 0, 255, Imgproc.THRESH_BINARY | Imgproc.THRESH_OTSU);
-        save1Mat = tempMat.clone();
+        //save1Mat = tempMat.clone();
 
         // 輪郭を抽出
         List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
         Mat hierarchy = new Mat();
         Imgproc.findContours(tempMat, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_TC89_L1);
-        save2Mat = inMat.clone();
-        Imgproc.drawContours(save2Mat, contours, -1, new Scalar(0, 255, 0), 1);
+        //save2Mat = inMat.clone();
+        //Imgproc.drawContours(save2Mat, contours, -1, new Scalar(0, 255, 0), 1);
+
+        //ImageManager.INSTANCE.setMat(save1Mat);
+        //ImageManager.INSTANCE.setMat(save2Mat);
 
         tempMat.release();
 
@@ -47,11 +50,11 @@ public class OpenCvPolygon {
             // 輪郭の面積を代入
             double contourArea = Imgproc.contourArea(contours.get(i));
             // 面積の大きさを制限
-            if (contourArea > 2000 && contourArea < 150000) {
+            if (contourArea > 10000 && contourArea < 150000) {
                 // 輪郭のポリゴン近似
                 MatOfPoint2f contours2f = new MatOfPoint2f(contours.get(i).toArray());
                 MatOfPoint2f approx2f = new MatOfPoint2f();
-                Imgproc.approxPolyDP(contours2f, approx2f, 0.05 * Imgproc.arcLength(contours2f, true), true);
+                Imgproc.approxPolyDP(contours2f, approx2f, 0.05*Imgproc.arcLength(contours2f, true), true);
 
                 // 凸包の取得
                 MatOfPoint approx = new MatOfPoint(approx2f.toArray());
@@ -71,18 +74,16 @@ public class OpenCvPolygon {
                 }
             }
         }
-        ImageManager.INSTANCE.setMat(save1Mat);
-        ImageManager.INSTANCE.setMat(save2Mat);
     }
 
     // 図形を描画
     public void drawPolygon(Mat inMat) {
         for (int i = 0; i < cornerPoints.size(); i++) {
-            for (int j = 0; j < cornerPoints.get(i).size() / 2; j++) {
+            for (int j = 0; j < cornerPoints.get(i).size()/2; j++) {
                 Point pt1, pt2;
-                pt1 = new Point(cornerPoints.get(i).get(2 * j), cornerPoints.get(i).get(2 * j + 1));
-                if (j < cornerPoints.get(i).size() / 2 - 1) {
-                    pt2 = new Point(cornerPoints.get(i).get(2 * (j + 1)), cornerPoints.get(i).get(2 * (j + 1) + 1));
+                pt1 = new Point(cornerPoints.get(i).get(2*j), cornerPoints.get(i).get(2*j + 1));
+                if (j < cornerPoints.get(i).size()/2 - 1) {
+                    pt2 = new Point(cornerPoints.get(i).get(2*(j + 1)), cornerPoints.get(i).get(2*(j + 1) + 1));
                 } else {
                     pt2 = new Point(cornerPoints.get(i).get(0), cornerPoints.get(i).get(1));
                 }

@@ -31,7 +31,7 @@ public class AnimationManager extends View implements Runnable {
 
         ball = new Ball(context);
     }
-    
+
     public void showAnimationView(MainActivity main) {
         handler = new Handler();
         handler.postDelayed(this, ball.time);
@@ -40,8 +40,8 @@ public class AnimationManager extends View implements Runnable {
 
     @Override
     public void run() {
-        int offsetX = (width - OpenCvCamera.width) / 2;
-        int offsetY = (height - OpenCvCamera.height) / 2;
+        int offsetX = (width - OpenCvCamera.width)/2;
+        int offsetY = (height - OpenCvCamera.height)/2;
         int endX = OpenCvCamera.width + offsetX;
         int endY = OpenCvCamera.height + offsetY;
 

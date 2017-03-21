@@ -88,13 +88,13 @@ public class OpenCvCamera implements CvCameraViewListener2 {
         Mat rgbaMat = inMat.clone();
         this.width = (int)inMat.size().width;
         this.height = (int)inMat.size().height;
-        ImageManager.INSTANCE.clearId();
+        //ImageManager.INSTANCE.clearId();
 
         polygon.findPolygon(rgbaMat);
         polygon.drawPolygon(rgbaMat);
 
-        ImageManager.INSTANCE.setMat(inMat);
-        ImageManager.INSTANCE.setMat(rgbaMat);
+        //ImageManager.INSTANCE.setMat(inMat);
+        //ImageManager.INSTANCE.setMat(rgbaMat);
         return rgbaMat;
     }
 }

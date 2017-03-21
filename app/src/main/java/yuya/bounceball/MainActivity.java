@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        ImageManager.INSTANCE.saveImage();
+        //ImageManager.INSTANCE.saveImage();
         return true;
     }
 
