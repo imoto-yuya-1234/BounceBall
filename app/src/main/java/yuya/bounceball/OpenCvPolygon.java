@@ -50,7 +50,7 @@ public class OpenCvPolygon {
             // 輪郭の面積を代入
             double contourArea = Imgproc.contourArea(contours.get(i));
             // 面積の大きさを制限
-            if (contourArea > 10000 && contourArea < 150000) {
+            if (contourArea > 200000 && contourArea < 400000) {
                 // 輪郭のポリゴン近似
                 MatOfPoint2f contours2f = new MatOfPoint2f(contours.get(i).toArray());
                 MatOfPoint2f approx2f = new MatOfPoint2f();
