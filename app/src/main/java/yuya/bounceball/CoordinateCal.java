@@ -16,7 +16,7 @@ public class CoordinateCal {
     private int radius;
     private double velocity, distance, angle;
     private int x1, y1, x2, y2;
-    public boolean collided, notCorner, outside;
+    public boolean collided, corner, outside;
 
     public CoordinateCal(int radius, double velocity) {
         this.radius = radius;
@@ -30,42 +30,46 @@ public class CoordinateCal {
         this.dy = dy;
         this.distance = -1;
         this.angle = 0;
-        this.collided = this.notCorner = this.outside = false;
+        this.collided = this.corner = this.outside = false;
     }
 
     // ボールと辺が衝突したかを求める
     public void calBallState(final int x1, final int y1, final int x2, final int y2) {
-        int[] vectorBarrier1 = new int[]{x2 - x1, y2 - y1};
-        int[] vectorBall1 = new int[]{x - x1, y - y1};
-        int[] vectorBarrier2 = new int[]{x1 - x2, y1 - y2};
-        int[] vectorBall2 = new int[]{x - x2, y - y2};
-        boolean notCorner;
-        double distance;
+        if (!this.corner) {
+            int[] vectorBarrier1 = new int[]{x2 - x1, y2 - y1};
+            int[] vectorBall1 = new int[]{x - x1, y - y1};
+            int[] vectorBarrier2 = new int[]{x1 - x2, y1 - y2};
+            int[] vectorBall2 = new int[]{x - x2, y - y2};
+            boolean corner;
+            double distance;
 
-        if (calInnerProduct(vectorBarrier1, vectorBall1) < 0) {
-            distance = calVectorAbsoluteValue(vectorBall1);
-            notCorner = false;
-        } else if (calInnerProduct(vectorBarrier2, vectorBall2) < 0) {
-            distance = calVectorAbsoluteValue(vectorBall2);
-            notCorner = false;
-        } else {
-            distance = abs(calCrossProduct(vectorBarrier1, vectorBall1))/calVectorAbsoluteValue(vectorBarrier1);
-            notCorner = true;
+            if (calInnerProduct(vectorBarrier1, vectorBall1) < 0) {
+                distance = calVectorAbsoluteValue(vectorBall1);
+                corner = true;
+            } else if (calInnerProduct(vectorBarrier2, vectorBall2) < 0) {
+                distance = calVectorAbsoluteValue(vectorBall2);
+                corner = true;
+            } else {
+                distance = abs(calCrossProduct(vectorBarrier1, vectorBall1)) / calVectorAbsoluteValue(vectorBarrier1);
+                corner = false;
+            }
+
+            Log.d("Distance ", String.valueOf(distance));
+
+            angle += calAngleOfVector(new int[]{x - x1, y - y1}, new int[]{x - x2, y - y2});
+            if (distance < radius) {
+                this.x1 = x1;
+                this.y1 = y1;
+                this.x2 = x2;
+                this.y2 = y2;
+                this.collided = true;
+                this.corner = corner;
+                this.distance = distance;
+                if (corner) {
+                    angle = 0;
+                }
+            }
         }
-
-        Log.d("Distance ", String.valueOf(distance));
-
-        if (distance < radius) {
-            this.x1 = x1;
-            this.y1 = y1;
-            this.x2 = x2;
-            this.y2 = y2;
-            this.collided = true;
-            this.notCorner = notCorner;
-            this.distance = distance;
-        }
-
-        angle += calAngleOfVector(new int[]{x - x1, y - y1}, new int[]{x - x2, y - y2});
     }
 
     public void calBallStatus() {
@@ -75,10 +79,10 @@ public class CoordinateCal {
             outside = false;
         }
 
-        if (notCorner) {
-            processReflection(new int[]{x2 - x1, y2 - y1});
-        } else {
+        if (corner) {
             processCornerReflection();
+        } else {
+            processReflection(new int[]{x2 - x1, y2 - y1});
         }
     }
 
