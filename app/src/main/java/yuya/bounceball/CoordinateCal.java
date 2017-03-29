@@ -5,6 +5,9 @@ import android.util.Log;
 import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
+import static yuya.bounceball.Vector.calCrossProduct;
+import static yuya.bounceball.Vector.calInnerProduct;
+import static yuya.bounceball.Vector.calVectorAbsoluteValue;
 
 /**
  * Created by yuya on 2017/03/25.
@@ -14,8 +17,9 @@ public class CoordinateCal {
 
     public int x, y, dx, dy;
     private int radius;
-    private double velocity, distance, angle;
+    private double velocity, distance;
     private int x1, y1, x2, y2;
+    private int[] cornerVector1, cornerVector2;
     public boolean collided, corner, outside;
 
     public CoordinateCal(int radius, double velocity) {
@@ -29,89 +33,62 @@ public class CoordinateCal {
         this.dx = dx;
         this.dy = dy;
         this.distance = -1;
-        this.angle = 0;
         this.collided = this.corner = this.outside = false;
     }
 
     // ボールと辺が衝突したかを求める
-    public void calBallState(final int x1, final int y1, final int x2, final int y2) {
-        if (!this.corner) {
-            int[] vectorBarrier1 = new int[]{x2 - x1, y2 - y1};
-            int[] vectorBall1 = new int[]{x - x1, y - y1};
-            int[] vectorBarrier2 = new int[]{x1 - x2, y1 - y2};
-            int[] vectorBall2 = new int[]{x - x2, y - y2};
-            boolean corner;
-            double distance;
+    public void checkCollided(final int x1, final int y1, final int x2, final int y2) {
+        int[] vectorBarrier1 = new int[]{x2 - x1, y2 - y1};
+        int[] vectorBall1 = new int[]{x - x1, y - y1};
+        int[] vectorBarrier2 = new int[]{x1 - x2, y1 - y2};
+        int[] vectorBall2 = new int[]{x - x2, y - y2};
+        boolean corner;
+        double distance;
 
-            if (calInnerProduct(vectorBarrier1, vectorBall1) < 0) {
-                distance = calVectorAbsoluteValue(vectorBall1);
-                corner = true;
-            } else if (calInnerProduct(vectorBarrier2, vectorBall2) < 0) {
-                distance = calVectorAbsoluteValue(vectorBall2);
-                corner = true;
-            } else {
-                distance = abs(calCrossProduct(vectorBarrier1, vectorBall1)) / calVectorAbsoluteValue(vectorBarrier1);
-                corner = false;
-            }
-
-            Log.d("Distance ", String.valueOf(distance));
-
-            angle += calAngleOfVector(new int[]{x - x1, y - y1}, new int[]{x - x2, y - y2});
-            if (distance < radius) {
-                this.x1 = x1;
-                this.y1 = y1;
-                this.x2 = x2;
-                this.y2 = y2;
-                this.collided = true;
-                this.corner = corner;
-                this.distance = distance;
-                if (corner) {
-                    angle = 0;
-                }
-            }
-        }
-    }
-
-    public void calBallStatus() {
-        if (360 - angle > 1E-3) {
-            outside = true;
+        if (calInnerProduct(vectorBarrier1, vectorBall1) < 0) {
+            distance = calVectorAbsoluteValue(vectorBall1);
+            corner = true;
+            cornerVector1 = new int[]{10*vectorBarrier2[0]/calVectorAbsoluteValue(vectorBarrier2), 10*vectorBarrier2[1]/calVectorAbsoluteValue(vectorBarrier2)};
+        } else if (calInnerProduct(vectorBarrier2, vectorBall2) < 0) {
+            distance = calVectorAbsoluteValue(vectorBall2);
+            corner = true;
+            cornerVector2 = new int[]{10*vectorBarrier1[0]/calVectorAbsoluteValue(vectorBarrier1), 10*vectorBarrier1[1]/calVectorAbsoluteValue(vectorBarrier1)};
         } else {
-            outside = false;
+            distance = abs(calCrossProduct(vectorBarrier1, vectorBall1)) / calVectorAbsoluteValue(vectorBarrier1);
+            corner = false;
         }
 
-        if (corner) {
-            processCornerReflection();
-        } else {
-            processReflection(new int[]{x2 - x1, y2 - y1});
+        Log.d("Distance ", String.valueOf(distance));
+
+        // ボールが辺に接触したとき
+        if (distance < radius) {
+            this.x1 = x1;
+            this.y1 = y1;
+            this.x2 = x2;
+            this.y2 = y2;
+            this.collided = true;
+            this.distance = distance;
+            this.corner = corner;
+        }
+        // ボールの位置が多角形の内か外かを調べる
+        // 辺ベクトルに対して一つでも右側にボールがあれば外にあるといえる
+        if (calCrossProduct(vectorBarrier1, vectorBall1) < 0 || this.outside) {
+            this.outside = true;
         }
     }
 
-    // ボールが角で反射する場合の反射処理
-    public void processCornerReflection() {
-        int[] n;
-        n = new int[]{-dx, -dy};
-
-        double nLength = calVectorAbsoluteValue(n);
-
-        // ボールの位置を補正
-        x += (radius - distance)*n[0]/nLength;
-        y += (radius - distance)*n[1]/nLength;
-
-        // ボールの方向を修正
-        dx = -dx;
-        dy = -dy;
-
-        Log.d("Velocity ", String.valueOf(sqrt(pow(dx, 2) + pow(dy, 2))));
-    }
-
-    // ボールが辺で反射する場合の反射処理
-    public void processReflection(final int[] vectorBarrier) {
+    // ボールの反射処理
+    public void processReflection() {
         // 法線ベクトルを決定
         int[] n;
-        if (outside) {
-            n = new int[]{vectorBarrier[1], -vectorBarrier[0]};
+        if (corner) {
+            n = new int[]{cornerVector1[0] + cornerVector2[0], cornerVector1[1] + cornerVector2[1]};
         } else {
-            n = new int[]{-vectorBarrier[1], vectorBarrier[0]};
+            if (outside) {
+                n = new int[]{y2 - y1, -(x2 - x1)};
+            } else {
+                n = new int[]{-(y2 - y1), x2 - x1};
+            }
         }
 
         double nLength = calVectorAbsoluteValue(n);
@@ -133,32 +110,5 @@ public class CoordinateCal {
         dy = (int)(k*ReflectionVector[1]);
 
         Log.d("Velocity ", String.valueOf(sqrt(pow(dx, 2) + pow(dy, 2))));
-    }
-
-    // 内積を求める
-    public double calInnerProduct(final int[] vector1, final int[] vector2) {
-        return vector1[0]*vector2[0] + vector1[1]*vector2[1];
-    }
-
-    // 外積を求める
-    public double calCrossProduct(final int[] vecotr1, final int[] vector2) {
-        return vecotr1[0]*vector2[1] - vecotr1[1]*vector2[0];
-    }
-
-    // ベクトルの絶対値を求める
-    public int calVectorAbsoluteValue(final int[] vector1) {
-        return (int)sqrt(pow(vector1[0], 2) + pow(vector1[1], 2));
-    }
-
-    // ベクトルの絶対値を求める
-    public double calVectorAbsoluteValue(final double[] vector1) {
-        return sqrt(pow(vector1[0], 2) + pow(vector1[1], 2));
-    }
-
-    // 2つのベクトルのなす角を求める
-    public double calAngleOfVector(int[] vector1, int[] vector2) {
-        double cos = calInnerProduct(vector1, vector2)/calVectorAbsoluteValue(vector1)/calVectorAbsoluteValue(vector2);
-        double angle = Math.toDegrees(Math.acos(cos));
-        return angle;
     }
 }

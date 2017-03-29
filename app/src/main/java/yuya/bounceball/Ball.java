@@ -4,12 +4,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
 
-import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
@@ -45,6 +43,7 @@ public class Ball extends View {
         canvas.drawCircle(x, y, radius, paint);
     }
 
+    // ボールの動きを決める
     public void moveBall(final int startX, final int startY, final int endX, final int endY) {
         offsetX = startX;
         offsetY = startY;
@@ -68,10 +67,7 @@ public class Ball extends View {
             dy = -dy;
         }
 
-        checkCollided();
-    }
-
-    public boolean checkCollided() {
+        // 検出した多角形に衝突したか調べる
         ArrayList<ArrayList<Integer>> cornerPoints = new ArrayList<ArrayList<Integer>>(OpenCvPolygon.cornerPoints);
         for (int i = 0; i < cornerPoints.size(); i++) {
             int[] pt = new int[4];
@@ -87,18 +83,17 @@ public class Ball extends View {
                     pt[3] = cornerPoints.get(i).get(1) + offsetY;
                 }
 
-                // ボールと辺の関係を計算
-                cCal.calBallState(pt[0], pt[1], pt[2], pt[3]);
+                // ボールと辺が衝突したかを調べる
+                cCal.checkCollided(pt[0], pt[1], pt[2], pt[3]);
             }
             if (cCal.collided) {
-                cCal.calBallStatus();
+                cCal.processReflection();
                 x = cCal.x;
                 y = cCal.y;
                 dx = cCal.dx;
                 dy = cCal.dy;
-                return true;
+                break;
             }
         }
-        return false;
     }
 }
